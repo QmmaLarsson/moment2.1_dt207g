@@ -21,3 +21,16 @@ client.connect((err) => {
         console.log("Du är ansluten till databasen.")
     }
 });
+
+//Skapa tabell
+client.query(`
+    DROP TABLE IF EXISTS jobs;
+    CREATE TABLE jobs(
+        id SERIAL PRIMARY KEY,
+        companyname VARCHAR(40),
+        jobtitle VARCHAR(30),
+        location VARCHAR (64),
+        startdate DATE,
+        enddate DATE
+    )
+    `);

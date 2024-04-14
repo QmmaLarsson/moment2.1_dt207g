@@ -1,7 +1,30 @@
+const { Client } = require("pg");
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 3000;
+
+//Anslut till databas
+const client = new Client({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    ssl: {
+        rejectUnauthorized: false,
+    },
+
+});
+
+client.connect((err) => {
+    if (err) {
+        console.log("Fel vid anslutning: " + err)
+    } else {
+        console.log("Du är ansluten till databasen")
+    }
+});
 
 app.use(cors());
 app.use(express.json());
@@ -70,7 +93,7 @@ app.delete("/api/jobs/:id", (req, res) => {
     res.json({ message: "Jobb borttaget: " + req.params.id });
 });
 
-//Lyssna på angiven port
+//Starta servern
 app.listen(port, () => {
-    console.log("Server is running on port: " + port)
+    console.log("Servern är startad på port: " + port)
 });
