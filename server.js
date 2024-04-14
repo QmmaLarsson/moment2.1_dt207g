@@ -36,7 +36,20 @@ app.get("/api", (req, res) => {
 
 //GET-rout för att hämta jobb
 app.get("/api/jobs", (req, res) => {
-    res.json({ message: "Hämta jobb" });
+    client.query(`SELECT id, companyname, jobtitle, location, TO_CHAR(startdate, 'YYYY-MM-DD') AS startdate, TO_CHAR(enddate, 'YYYY-MM-DD') AS enddate FROM jobs;`, (err, results) => {
+        //Hantering av fel
+        if (err) {
+            res.status(500).json({ error: "Något gick fel: " + err });
+            return;
+        }
+
+        //Resultat
+        if(results.rows.length === 0) {
+            res.status(404).json({message: "Inga jobb hittades"});
+        } else {
+            res.json(results.rows);
+        }
+    });
 });
 
 //POST-rout för att lägga till nytt jobb
