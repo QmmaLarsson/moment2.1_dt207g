@@ -44,8 +44,8 @@ app.get("/api/jobs", (req, res) => {
         }
 
         //Resultat
-        if(results.rows.length === 0) {
-            res.status(404).json({message: "Inga jobb hittades"});
+        if (results.rows.length === 0) {
+            res.status(404).json({ message: "Inga jobb hittades" });
         } else {
             res.json(results.rows);
         }
@@ -70,7 +70,7 @@ app.post("/api/jobs", (req, res) => {
         }
     };
 
-    if (!id || !companyname || !jobtitle || !location || !startdate || !enddate) {
+    if (!companyname || !jobtitle || !location || !startdate || !enddate) {
         //Error meddelande
         errors.message = "All information är inte ifylld";
         errors.detail = "Du måste fylla i all information i JSON";
@@ -84,16 +84,25 @@ app.post("/api/jobs", (req, res) => {
         return;
     }
 
-    let jobs = {
-        id: id,
-        companyname: companyname,
-        jobtitle: jobtitle,
-        location: location,
-        startdate: startdate,
-        enddate: enddate
-    }
+    client.query(`INSERT INTO jobs(companyname, jobtitle, location, startdate, enddate) VALUES ($1, $2, $3, $4, $5)`, [companyname, jobtitle, location, startdate, enddate], (err, results) => {
+        //Hantering av fel
+        if (err) {
+            res.status(500).json({ error: "Något gick fel: " + err });
+            return;
+        }
 
-    res.json({ message: "Nytt jobb tillagt", jobs });
+        console.log("Fråga skickad " + results);
+
+        let jobs = {
+            companyname: companyname,
+            jobtitle: jobtitle,
+            location: location,
+            startdate: startdate,
+            enddate: enddate
+        }
+
+        res.json({ message: "Nytt jobb tillagt", jobs });
+    });
 });
 
 //PUT-rout för att uppdatera ett befintligt jobb
