@@ -6,6 +6,10 @@ Detta är ett REST API som används för att hantera tidigare arbetslivserfarenh
 
 APIet är kopplat till en Postgre-databas. För att komma igång, börja med att klona ned källkodsfilerna. Kör sedan kommandot "npm install" för att installera de nödvändiga npm-paketen. Slutligen, kör installations-skriptet "install.js".
 
+### Länk till API
+
+https://moment21dt207g.onrender.com/api
+
 ### Användning av API
 
 Nedan finns en beskriving av hur man på olika sätt kan nå APIet:
