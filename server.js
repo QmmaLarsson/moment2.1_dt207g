@@ -28,8 +28,13 @@ client.connect((err) => {
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
 //Routes
+app.get("/", (req, res) => {
+    res.render("index");
+});
+
 app.get("/api", (req, res) => {
     res.json({ message: "välkommen till mitt API" })
 });
