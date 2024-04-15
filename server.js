@@ -112,7 +112,24 @@ app.put("/api/jobs/:id", (req, res) => {
 
 //DELETE-rout för att radera ett befintligt jobb
 app.delete("/api/jobs/:id", (req, res) => {
-    res.json({ message: "Jobb borttaget: " + req.params.id });
+    let jobId = req.params.id;
+
+    client.query(`DELETE FROM jobs WHERE id = $1`, [jobId], (err, results) => {
+        //Hantering av fel
+        if (err) {
+            res.status(500).json({ error: "Något gick fel: " + err });
+            return;
+        }
+
+        //Om inget jobb hittas
+        if (results.rowCount === 0) {
+            res.status(404).json({ message: "Inget jobb hittades" });
+            return;
+        }
+
+        //Om jobbet raderas
+        res.json({ message: "Jobb borttaget: " + jobId });
+    });
 });
 
 //Starta servern
