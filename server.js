@@ -66,7 +66,7 @@ app.post("/api/jobs", (req, res) => {
     let jobtitle = req.body.jobtitle;
     let location = req.body.location;
     let startdate = req.body.startdate;
-    let enddate = req.body.enddate;
+    let enddate = req.body.enddate || null;
 
     //Hantering av fel
     let errors = {
