@@ -79,8 +79,8 @@ app.post("/api/jobs", (req, res) => {
 
     if (!companyname || !jobtitle || !location || !startdate) {
         //Error meddelande
-        errors.message = "All information är inte ifylld";
-        errors.detail = "Du måste fylla i all information i JSON";
+        errors.message = "All obligatorisk information är inte ifylld";
+        errors.detail = "Du måste fylla i all obligatorisk information i JSON";
 
         //Responskod för fel
         errors.https_response.message = "Bad Request";
