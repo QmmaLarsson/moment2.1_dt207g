@@ -43,7 +43,7 @@ app.get("/api", (req, res) => {
 
 //GET-rout för att hämta jobb
 app.get("/api/jobs", (req, res) => {
-    client.query(`SELECT * FROM jobs;`, (err, results) => {
+    client.query(`SELECT id, companyname, jobtitle, location, TO_CHAR(startdate, 'YYYY-MM-DD') AS startdate, TO_CHAR(enddate, 'YYYY-MM-DD') AS enddate FROM jobs;`, (err, results) => {
         //Hantering av fel
         if (err) {
             res.status(500).json({ error: "Något gick fel: " + err });
