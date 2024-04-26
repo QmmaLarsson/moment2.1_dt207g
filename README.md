@@ -19,7 +19,7 @@ Nedan finns en beskriving av hur man på olika sätt kan nå APIet:
 | GET | /jobs | Hämtar alla jobb som finns tillagda i databasen |
 | POST | /jobs/:id | Lägger till ett jobb till databasen |
 | DELETE | jobs/:id | Raderar ett jobb från databasen |
-| PUT | jobs/:id | Uppdaterar ett jobb från databasen (inte implementerad i nuläget) |
+| PUT | jobs/:id | Uppdaterar ett jobb från databasen |
 
 Ett objekt returneras med följande struktur:
 

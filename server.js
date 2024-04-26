@@ -114,7 +114,27 @@ app.post("/api/jobs", (req, res) => {
 
 //PUT-rout för att uppdatera ett befintligt jobb
 app.put("/api/jobs/:id", (req, res) => {
-    res.json({ message: "Jobb uppdaterat: " + req.params.id });
+    let jobId = req.params.id;
+    let updatedJob = req.body;
+
+    client.query(`UPDATE jobs SET companyname = $1, jobtitle = $2, location = $3, startdate = $4, enddate = $5 WHERE id = $6`,
+        [updatedJob.companyname, updatedJob.jobtitle, updatedJob.location, updatedJob.startdate, updatedJob.enddate, jobId],
+        (err, results) => {
+            //Hantering av fel
+            if (err) {
+                res.status(500).json({ error: "Något gick fel: " + err });
+                return;
+            }
+
+            //Om inget jobb hittas
+            if (results.rowCount === 0) {
+                res.status(404).json({ message: "Inget jobb hittades" });
+                return;
+            }
+
+            //Om jobbet uppdateras
+            res.json({ message: "Jobb uppdaterat: " + req.params.id });
+        });
 });
 
 //DELETE-rout för att radera ett befintligt jobb
